@@ -1,5 +1,5 @@
 import os
-from vars import Var
+from configs import Config
 from database import Database
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
