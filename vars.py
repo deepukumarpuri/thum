@@ -1,8 +1,5 @@
 
 from os import getenv, environ
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class Var(object):
