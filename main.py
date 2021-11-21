@@ -4,7 +4,6 @@ from database import Database
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import UserNotParticipant
-db = Database(Var.DATABASE_URL)
 
 
 START_TEXT = """
@@ -27,6 +26,7 @@ Bot = Client(
     bot_token = os.environ["BOT_TOKEN"],
     api_id = int(os.environ["API_ID"]),
     api_hash = os.environ["API_HASH"]
+    database_url = os.environ["DATABASE_URL"]
 )
 
 @Bot.on_message(filters.private & filters.command(["start"]))
