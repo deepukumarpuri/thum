@@ -4,6 +4,8 @@ from database import Database
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import UserNotParticipant
+db = Database(Config.DATABASE_URL)
+Bot = Client(Config.BOT_USERNAME, bot_token=Config.BOT_TOKEN, api_id=Config.API_ID, api_hash=Config.API_HASH)
 
 
 START_TEXT = """
@@ -21,22 +23,17 @@ BUTTONS = InlineKeyboardMarkup(
     )
 REGEX = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
 
-Bot = Client(
-    "YouTube-Thumbnail-Downloader",
-    bot_token = os.environ["BOT_TOKEN"],
-    api_id = int(os.environ["API_ID"]),
-    api_hash = os.environ["API_HASH"]
-)
+
 
 @Bot.on_message(filters.private & filters.command(["start"]))
 async def start(bot, update):
     if not await db.is_user_exist(message.from_user.id):
         await db.add_user(message.from_user.id)
         await bot.send_message(
-            Var.BIN_CHANNEL,
+            Config.BIN_CHANNEL,
             f"**Nᴇᴡ Usᴇʀ Jᴏɪɴᴇᴅ **\n\n__Mʏ Nᴇᴡ Fʀɪᴇɴᴅ__ [{message.from_user.first_name}](tg://user?id={message.from_user.id}) __Started Your Bot !!__"
         )
-    if Var.UPDATES_CHANNEL is not None:
+    if Config.UPDATES_CHANNEL is not None:
         try:
             user = await bot.get_chat_member(Var.UPDATES_CHANNEL, message.chat.id)
             if user.status == "kicked":
